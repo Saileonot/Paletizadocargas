@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carga de Camión</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Croquis de carga de bultos en camiones y/o contenedores (Tono Elías, marzo 2025)</h2>
+    <div class="container">
+        <!-- Botones de creación de bultos -->
+        <div class="creation-buttons">
+            <button id="addPanel">Paneles (2m x 1m)</button>
+            <button id="addPanel2">Paneles x 2</button> <!-- Nuevo botón -->
+            <button id="addPanel3">Paneles x 3</button> <!-- Nuevo botón -->
+            <button id="addValla">Vallas (2m x 1.25m)</button>
+            <button id="addPieValla">Pies de Valla (1.1m x 1.1m)</button>
+            <button id="addPatines">Patines (1m x 1m)</button>
+            <button id="addAccesorios">Accesorios (1.2m x 0.8m)</button>
+            <button id="addPatineros">Patineros (1.6m x 0.9m)</button>
+            <button id="addCauchos">Cauchos (1.2m x 1.3m)</button>
+            <button id="addCustomBox">Crear bulto personalizado</button>
+        </div>
+
+        <!-- Botones de funcionalidades -->
+        <div class="functionality-buttons">
+            <select id="contenedor">
+                <option value="Camion Lona">Camión Lona (12.30m x 2.35m)</option>
+                <option value="Container 20pies">Container 20 pies (6.06m x 2.44m)</option>
+                <option value="Container 40pies">Container 40 pies (12.19m x 2.44m)</option>
+                <option value="Camion Plataforma Pequeño">Camión Plataforma Pequeño (5.00m x 2.20m)</option>
+                <option value="Camion Plataforma Mediano">Camión Plataforma Mediano (7.00m x 2.50m)</option>
+                <option value="Camion Plataforma Grande">Camión Plataforma Grande (10.00m x 2.80m)</option>
+            </select>
+            <button id="validate">Validar</button>
+            <button id="exportPDF">Exportar a PDF</button>
+        </div>
+
+        <!-- Información del área -->
+        <div class="info">
+            <p id="dimensions">Dimensiones del bulto seleccionado: -</p>
+            <p id="areaInfo">Área ocupada: 0m² | Área disponible: 289.05m²</p>
+        </div>
+
+
+
+
+
+
+        <!-- Botones de validación, exportación, guardado y carga -->
+        <div class="actions">
+            <button id="save">GUARDAR</button>
+            <button id="load">CARGAR</button>
+            <button id="reset">REINICIAR</button>
+            <input type="file" id="fileInput" accept=".json" style="display: none;">
+        </div>       
+
+
+
+
+
+        <!-- Contenedor del camión -->
+        <div class="truck">
+            <div class="grid"></div>
+            <div class="boxes"></div>
+            <!-- Línea de dimensión horizontal -->
+            <div id="dimension-line-horizontal" class="dimension-line horizontal">
+                <div class="arrow"></div>
+                <span id="dimension-horizontal-text">12.30m</span>
+                <div class="arrow"></div>
+            </div>
+            <!-- Línea de dimensión vertical -->
+            <div id="dimension-line-vertical" class="dimension-line vertical">
+                <div class="arrow"></div>
+                <span id="dimension-vertical-text">2.35m</span>
+                <div class="arrow"></div>
+            </div>
+        </div>
+
+        <!-- Resultado de la validación -->
+        <div id="resultado"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
