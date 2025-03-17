@@ -1,3 +1,25 @@
+// Función de control de acceso al estar el código accesible en GitHub
+(function () {
+    const contraseñaCorrecta = "1968"; // Puedes cambiar la contraseña aquí
+    let intentos = 3; // Número de intentos permitidos
+
+    while (intentos > 0) {
+        let contraseñaIngresada = prompt("Uso exclusivo XTRAICE - 🔒 Introduce la contraseña de 4 dígitos:");
+
+        if (contraseñaIngresada === contraseñaCorrecta) {
+            alert("PALETIZADO Y COLOCACIÓN DE CARGAS \n\n ✅ Acceso concedido.\n BIENVENIDO. \n\n Si ves algún error en la ejecución de la aplicación o sus resultados, puedes comunicármelo vía mail: tono@xtraice.com");
+            return; // Permite que la aplicación continúe
+        } else {
+            intentos--;
+            alert(`❌ Contraseña incorrecta. Intentos restantes: ${intentos}`);
+        }
+    }
+
+    // Si se acaban los intentos, redirigir o bloquear acceso
+    alert("🚫 Acceso denegado");
+    document.body.innerHTML = "<h1>Acceso bloqueado ❌</h1>";
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
     const truck = document.querySelector(".truck");
     const boxesContainer = document.querySelector(".boxes");
@@ -18,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Lista de bultos
     let boxes = [];
     let currentBox = null;
-    let nombreEncabezamiento = ""; // Variable para almacenar el nombre ingresado en VALIDAR
+    let nombreEncabezamiento = ""; // Variable para almacenar el nombre ingresado en GUARDAR
 
     // Función para actualizar las dimensiones visuales del contenedor
     function updateTruckDimensions() {
@@ -42,15 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (contenedor === "Container 40pies") {
             truckWidth = 1219; // 12.19m
             truckHeight = 244; // 2.44m
-        } else if (contenedor === "Camion Plataforma Pequeño") {
-            truckWidth = 500; // 5.00m
-            truckHeight = 220; // 2.20m
-        } else if (contenedor === "Camion Plataforma Mediano") {
+        } else if (contenedor === "Camion Plataforma 7m") {
             truckWidth = 700; // 7.00m
-            truckHeight = 250; // 2.50m
-        } else if (contenedor === "Camion Plataforma Grande") {
+            truckHeight = 248; // 2.48m
+        } else if (contenedor === "Camion Plataforma 8m") {
+            truckWidth = 800; // 8.00m
+            truckHeight = 248; // 2.48m
+        } else if (contenedor === "Camion Plataforma 10m") {
             truckWidth = 1000; // 10.00m
-            truckHeight = 280; // 2.80m
+            truckHeight = 248; // 2.48m
         }
 
         // Actualizar las dimensiones visuales del contenedor
@@ -86,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Posicionar el bulto centrado verticalmente y alineado a la derecha
         const boxWidth = width * 100; // Ancho del bulto en píxeles
         const boxHeight = height * 100; // Alto del bulto en píxeles
-        box.style.left = `${truckWidth - boxWidth}px`; // Alineado a la derecha
+        box.style.left = `${truckWidth - boxWidth-5}px`; // Alineado a la derecha
         box.style.top = `0px`; // Alineado a la parte de arriba
 
         // Seleccionar el bulto automáticamente al crearlo
@@ -163,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("addAccesorios").addEventListener("click", () => {
-        createBox("Accesorios", 1.2, 0.8, "yellow");
+        createBox("Accesorios", 1.2, 0.8, "pink");
     });
 
     document.getElementById("addPatineros").addEventListener("click", () => {
@@ -209,14 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
         createBox(nombre, ancho, largo, color);
     });
 
-    // Validar y mostrar listado de bultos
+    // Validar y mostrar listado de bultos (sin solicitar nombre)
     validateButton.addEventListener("click", () => {
-        // Solicitar el nombre para el encabezamiento
-        nombreEncabezamiento = prompt("Ingrese un nombre para el encabezamiento del listado:");
-        if (!nombreEncabezamiento) return; // Si el usuario cancela, no hacer nada
-
         let isValid = true;
-        let message = `Listado de bultos para: ${nombreEncabezamiento}\n`;
+        let message = `Listado de bultos:\n`;
 
         // Verificar si los bultos están dentro del camión y no se solapan
         boxes.forEach((box, index) => {
@@ -262,28 +280,24 @@ document.addEventListener("DOMContentLoaded", () => {
             boxes.forEach((box) => {
                 const tipo = box.name; // Usar el nombre del bulto para agrupar
 
-                // Sumar las cantidades correspondientes para "Paneles", "Paneles x 2" y "Paneles x 3"
-                if (tipo.startsWith("Paneles")) {
-                    if (tipo === "Paneles x 2") {
-                        tiposBultos["Paneles"] = (tiposBultos["Paneles"] || 0) + 2;
-                    } else if (tipo === "Paneles x 3") {
-                        tiposBultos["Paneles"] = (tiposBultos["Paneles"] || 0) + 3;
-                    } else {
-                        tiposBultos["Paneles"] = (tiposBultos["Paneles"] || 0) + 1;
-                    }
+                // Sumar las cantidades correspondientes para "Paneles x 2" y "Paneles x 3"
+                if (tipo === "Paneles x 2") {
+                    totalBultos += 2; // Sumar 2 bultos
+                    tiposBultos["Paneles"] = (tiposBultos["Paneles"] || 0) + 2;
+                } else if (tipo === "Paneles x 3") {
+                    totalBultos += 3; // Sumar 3 bultos
+                    tiposBultos["Paneles"] = (tiposBultos["Paneles"] || 0) + 3;
                 } else {
-                    // Para otros tipos de bultos, contar normalmente
+                    totalBultos += 1; // Sumar 1 bulto
                     tiposBultos[tipo] = (tiposBultos[tipo] || 0) + 1;
                 }
-
-                totalBultos += 1; // Contar cada bulto individualmente
             });
 
             let listado = "<ul>";
             // Generar el listado en el formato "X uds TIPO_DE_BULTO"
             Object.keys(tiposBultos).forEach((tipo) => {
                 const cantidad = tiposBultos[tipo];
-                listado += `<li>${cantidad} uds ${tipo}</li>`;
+                listado += `<li>${cantidad} palets de ${tipo}</li>`;
             });
             listado += `</ul><p><strong>Total: ${totalBultos} bultos</strong></p>`;
 
@@ -293,12 +307,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Función para guardar los datos en un archivo JSON
+    // Función para guardar los datos en un archivo JSON (solicitar nombre aquí)
     saveButton.addEventListener("click", () => {
-        if (!nombreEncabezamiento) {
-            alert("Debes validar primero para guardar los datos.");
-            return;
-        }
+        // Solicitar el nombre para el archivo
+        nombreEncabezamiento = prompt("Ingrese un nombre para el archivo:");
+        if (!nombreEncabezamiento) return; // Si el usuario cancela, no hacer nada
 
         const datos = {
             nombre: nombreEncabezamiento,
@@ -373,33 +386,147 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsText(file);
     });
 
-    // Exportar a PDF (captura de pantalla del contenedor y el listado)
-    exportPDFButton.addEventListener("click", () => {
-        // Capturar el contenedor y el listado
-        const elementsToCapture = [truck, resultadoDiv];
-
-        html2canvas(truck).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
+    // Exportar a PDF mejorado
+    // Exportar a PDF mejorado (versión corregida)
+    exportPDFButton.addEventListener("click", async () => {
+        const originalText = exportPDFButton.innerHTML;
+        exportPDFButton.innerHTML = '<div class="loader"></div> Generando PDF...';
+        
+        try {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
                 orientation: "landscape",
                 unit: "mm",
                 format: "a4"
             });
-
-            // Añadir la imagen del contenedor al PDF
-            doc.addImage(imgData, "PNG", 10, 10, 280, 0);
-
-            // Capturar el listado y añadirlo al PDF
-            html2canvas(resultadoDiv).then((canvasListado) => {
-                const imgDataListado = canvasListado.toDataURL("image/png");
-                doc.addPage();
-                doc.addImage(imgDataListado, "PNG", 10, 10, 180, 0);
-
-                // Guardar el PDF
-                doc.save("disposicion_bultos.pdf");
+    
+            // Función para convertir cualquier color a RGB
+            const colorToRgb = (color) => {
+                if (Array.isArray(color)) return color;
+                
+                const div = document.createElement('div');
+                div.style.color = color;
+                document.body.appendChild(div);
+                const rgb = window.getComputedStyle(div).color;
+                document.body.removeChild(div);
+                
+                const match = rgb.match(/\d+/g);
+                return match ? match.map(Number) : [0, 0, 0];
+            };
+    
+            // Cabecera del PDF
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text("PLANOS DE CARGA - XTRAICE", 10, 10);
+            doc.setFontSize(12);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 10, 18);
+            doc.text(`Cliente: ${nombreEncabezamiento || 'Sin nombre'}`, 100, 18);
+    
+            // Capturar imagen del contenedor (posición ajustada 5mm más abajo)
+            const truckCanvas = await html2canvas(truck, { 
+                scale: 2,
+                useCORS: true,
+                logging: false
             });
-        });
+            const truckImg = truckCanvas.toDataURL("image/png");
+            const imgWidth = 250;
+            const imgHeight = (truckCanvas.height * imgWidth) / truckCanvas.width;
+            doc.addImage(truckImg, "PNG", 10, 30, imgWidth, imgHeight); // Posición Y cambiada a 30
+
+                    // Dibujo del contenedor con borde
+            doc.setDrawColor(0);
+            doc.rect(10, 30, imgWidth, imgHeight);
+    
+            // Información del contenedor
+            let yPos = 30 + imgHeight + 10;
+            doc.setFont(undefined, 'bold');
+            doc.text("DATOS DEL CONTENEDOR:", 10, yPos);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Tipo: ${contenedorSelect.value}`, 10, yPos + 6);
+            doc.text(`Dimensiones: ${(truckWidth/100).toFixed(2)}m x ${(truckHeight/100).toFixed(2)}m`, 90, yPos + 6);
+            doc.text(`Área total: ${truckArea.toFixed(2)}m²`, 180, yPos + 6);
+            yPos += 20;
+    
+            // Agrupar bultos como en la validación
+            const groupedBoxes = boxes.reduce((acc, box) => {
+                const baseName = box.name.replace(/ x \d+/, '');
+                const dimensionKey = `${box.width.toFixed(2)}x${box.height.toFixed(2)}`;
+                const key = `${baseName}-${dimensionKey}`;
+    
+                if (!acc[key]) {
+                    acc[key] = {
+                        name: baseName,
+                        cantidad: 0,
+                        width: box.width,
+                        height: box.height,
+                        color: box.color
+                    };
+                }
+    
+                // Sumar cantidad según el multiplicador en el nombre
+                acc[key].cantidad += box.name.includes('x 2') ? 2 : 
+                                   box.name.includes('x 3') ? 3 : 1;
+    
+                return acc;
+            }, {});
+    
+            // Crear tabla con bultos agrupados
+            const columns = ["Tipo de Bulto", "Cantidad", "Dimensiones (m)", "Color"];
+            const rows = Object.values(groupedBoxes).map(box => [
+                box.name,
+                box.cantidad.toString(),
+                `${box.width.toFixed(2)}x${box.height.toFixed(2)}`,
+                { 
+                    content: '', 
+                    styles: { 
+                        fillColor: colorToRgb(box.color),
+                        textColor: [0, 0, 0]
+                    }
+                }
+            ]);
+    
+            doc.autoTable({
+                startY: yPos,
+                head: [columns],
+                body: rows,
+                theme: 'grid',
+                styles: { 
+                    fontSize: 10,
+                    cellPadding: 2,
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { halign: 'left' },
+                    3: { cellWidth: 15 }
+                },
+                didDrawCell: (data) => {
+                    if (data.column.index === 3 && data.cell.raw) {
+                        const color = data.cell.styles.fillColor;
+                        doc.setFillColor(...color);
+                        doc.rect(data.cell.x + 2, data.cell.y + 2, 10, 10, 'F');
+                    }
+                }
+            });
+    
+            // Pie de página
+            const pageCount = doc.getNumberOfPages();
+            for(let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(10);
+                doc.text(`Página ${i} de ${pageCount}`, 260, 207);
+                doc.text("Documento generado por XTRAICE", 10, 207);
+            }
+    
+            // Guardar PDF
+            doc.save(`Planos_Carga_${nombreEncabezamiento || 'SinNombre'}.pdf`);
+    
+        } catch (error) {
+            console.error("Error generando PDF:", error);
+            alert("Error al generar el PDF. Por favor inténtalo de nuevo.");
+        } finally {
+            exportPDFButton.innerHTML = originalText;
+        }
     });
 
     // Eliminar bulto con la tecla "X"
@@ -416,7 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Movimiento de bultos con las flechas del teclado
     document.addEventListener("keydown", (e) => {
         if (currentBox) {
-            const step = e.repeat ? 20 : 5; // 20 cm si la tecla está mantenida, 5 cm si es una pulsación
+            const step = e.repeat ? 40 : 5; // 20 cm si la tecla está mantenida, 5 cm si es una pulsación
             let newX = parseFloat(currentBox.style.left) || 0;
             let newY = parseFloat(currentBox.style.top) || 0;
 
