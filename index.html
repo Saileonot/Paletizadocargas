@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Croquis de carga de bultos en camiones y/o contenedores (Tono Elías, marzo 2025)</h2>
+    <div class="titulos">
+    <h3>Croquis de carga de bultos en camiones y/o contenedores (Tono Elías, marzo 2025)</h3>
+    <p>Flechas para mover bultos. (X) para borrarlos. Doble click para rotar 90ª</p>
+    </class>
     <div class="container">
         <!-- Botones de creación de bultos -->
         <div class="creation-buttons">
@@ -29,9 +32,9 @@
                 <option value="Camion Lona">Camión Lona (12.30m x 2.35m)</option>
                 <option value="Container 20pies">Container 20 pies (6.06m x 2.44m)</option>
                 <option value="Container 40pies">Container 40 pies (12.19m x 2.44m)</option>
-                <option value="Camion Plataforma Pequeño">Camión Plataforma Pequeño (5.00m x 2.20m)</option>
-                <option value="Camion Plataforma Mediano">Camión Plataforma Mediano (7.00m x 2.50m)</option>
-                <option value="Camion Plataforma Grande">Camión Plataforma Grande (10.00m x 2.80m)</option>
+                <option value="Camion Plataforma 7m">Camión Plataforma 7m (7.00m x 2.48m)</option>
+                <option value="Camion Plataforma 8m">Camión Plataforma 8m (8.00m x 2.48m)</option>
+                <option value="Camion Plataforma 10m">Camión Plataforma 10m (10.00m x 2.48m)</option>
             </select>
             <button id="validate">Validar</button>
             <button id="exportPDF">Exportar a PDF</button>
@@ -43,11 +46,6 @@
             <p id="areaInfo">Área ocupada: 0m² | Área disponible: 289.05m²</p>
         </div>
 
-
-
-
-
-
         <!-- Botones de validación, exportación, guardado y carga -->
         <div class="actions">
             <button id="save">GUARDAR</button>
@@ -55,10 +53,6 @@
             <button id="reset">REINICIAR</button>
             <input type="file" id="fileInput" accept=".json" style="display: none;">
         </div>       
-
-
-
-
 
         <!-- Contenedor del camión -->
         <div class="truck">
@@ -81,7 +75,9 @@
         <!-- Resultado de la validación -->
         <div id="resultado"></div>
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
